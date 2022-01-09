@@ -1,6 +1,7 @@
 package hello.advanced.trace.strategy;
 
 import hello.advanced.trace.strategy.code.strategy.ContextV1;
+import hello.advanced.trace.strategy.code.strategy.Strategy;
 import hello.advanced.trace.strategy.code.strategy.StrategyLogic1;
 import hello.advanced.trace.strategy.code.strategy.StrategyLogic2;
 import hello.advanced.trace.template.code.AbstractTemplate;
@@ -51,6 +52,74 @@ public class ContextV1Test {
 
     StrategyLogic2 strategyLogic2 = new StrategyLogic2();
     ContextV1 contextV2 = new ContextV1(strategyLogic2);
+    contextV2.execute();
+
+    //when
+
+    //then
+  }
+
+  @Test
+  public void strategyV2() throws Exception{
+    //given
+    Strategy strategyLogic1 = new Strategy() {
+
+      @Override
+      public void call() {
+        log.info("비즈니스 로직1 실행");
+      }
+    };
+    ContextV1 contextV1 = new ContextV1(strategyLogic1);
+    contextV1.execute();
+
+    Strategy strategyLogic2 = new Strategy() {
+
+      @Override
+      public void call() {
+        log.info("비즈니스 로직2 실행");
+      }
+    };
+    ContextV1 contextV2 = new ContextV1(strategyLogic2);
+    contextV2.execute();
+
+    //when
+
+    //then
+  }
+
+  @Test
+  public void strategyV3() throws Exception{
+    //given
+    ContextV1 contextV1 = new ContextV1(new Strategy() {
+
+      @Override
+      public void call() {
+        log.info("비즈니스 로직1 실행");
+      }
+    });
+    contextV1.execute();
+
+    ContextV1 contextV2 = new ContextV1(new Strategy() {
+
+      @Override
+      public void call() {
+        log.info("비즈니스 로직2 실행");
+      }
+    });
+    contextV2.execute();
+
+    //when
+
+    //then
+  }
+
+  @Test
+  public void strategyV4() throws Exception{
+    //given
+    ContextV1 contextV1 = new ContextV1(() -> log.info("비즈니스 로직1 실행"));
+    contextV1.execute();
+
+    ContextV1 contextV2 = new ContextV1(() -> log.info("비즈니스 로직2 실행"));
     contextV2.execute();
 
     //when
